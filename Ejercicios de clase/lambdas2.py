@@ -1,0 +1,1 @@
+print((lambda x: [elem.upper() for elem in x if 'i' in elem])((lambda w,x,y,z : w + x + y + z)(['a', 'b', 'c'], ['Holi', 'uwu'], ['adios','asies'], ['Goku', 'Vegeta'])))
