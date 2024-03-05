@@ -1,0 +1,5 @@
+usuario1 contrasena
+usuario2 contrasena2
+usuario3 pass1
+usuario pass0
+usuario3 pass2
