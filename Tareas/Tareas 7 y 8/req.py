@@ -29,8 +29,10 @@ def checkOptions(options):
         printError('Debes especificar un servidor a atacar.', True)
 
 
-def reportResults():
-    pass
+def reportResults(reporte, user, password):
+    with open(reporte,'a'):
+        reporte.write('El siguiente par funciona: %s\t%s \n' % (user,password))
+    
 
 
 def buildURL(server,port, protocol = 'http'):
@@ -48,8 +50,8 @@ def makeRequest(host, credenciales):
                 try:
                     response = get(host, auth=(user,password))
                     if response.status_code == 200:
-                        with open('resultados.txt','a') as reporte:
-                            reporte.write('El siguiente par funciona: %s\t%s \n' % (user,password))
+                            reporte = 'El siguiente par funciona: %s\t%s \n' % (user,password)
+                            reportResults(reporte, user, password)
                 except ConnectionError:
                     printError('Error en la conexion, tal vez el servidor no esta arriba.',True)
 
